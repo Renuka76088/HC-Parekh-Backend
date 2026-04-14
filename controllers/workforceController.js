@@ -3,7 +3,7 @@ const Vacancy = require('../models/Vacancy');
 // Vacancies
 exports.getVacancies = async (req, res) => {
   try {
-    const vacancies = await Vacancy.find().sort({ createdAt: -1 });
+    const vacancies = await Vacancy.find().sort({ createdAt: 1 });
     res.json(vacancies);
   } catch (err) { res.status(500).json({ message: err.message }); }
 };
@@ -21,4 +21,13 @@ exports.deleteVacancy = async (req, res) => {
     await Vacancy.findByIdAndDelete(req.params.id);
     res.json({ message: 'Vacancy removed' });
   } catch (err) { res.status(500).json({ message: err.message }); }
+};
+
+exports.updateVacancy = async (req, res) => {
+  try {
+    const updated = await Vacancy.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(updated);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
 };

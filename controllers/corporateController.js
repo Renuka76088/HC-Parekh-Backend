@@ -5,7 +5,7 @@ const Notice = require('../models/Notice');
 // Tenders
 exports.getTenders = async (req, res) => {
   try {
-    const tenders = await Tender.find().sort({ createdAt: -1 });
+    const tenders = await Tender.find().sort({ createdAt: 1 });
     res.json(tenders);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -49,7 +49,7 @@ exports.deleteTender = async (req, res) => {
 // MOUs
 exports.getMOUs = async (req, res) => {
   try {
-    const mous = await MOU.find().sort({ createdAt: -1 });
+    const mous = await MOU.find().sort({ createdAt: 1 });
     res.json(mous);
   } catch (err) { res.status(500).json({ message: err.message }); }
 };
@@ -79,7 +79,7 @@ exports.deleteMOU = async (req, res) => {
 // Notices
 exports.getNotices = async (req, res) => {
   try {
-    const notices = await Notice.find().sort({ createdAt: -1 });
+    const notices = await Notice.find().sort({ createdAt: 1 });
     res.json(notices);
   } catch (err) { res.status(500).json({ message: err.message }); }
 };
