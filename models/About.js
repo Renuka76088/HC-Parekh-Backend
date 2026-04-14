@@ -5,9 +5,15 @@ const AboutSchema = new mongoose.Schema({
   motherTongue: { type: String },
   fatherRelation: { type: String },
   govExperience: [String],
-  corpExperience: [String],
+  corpExperience: [{
+    title: { type: String },
+    description: { type: String }
+  }],
   ethics: [String],
-  socialServices: [String],
+  socialServices: [{
+    title: { type: String },
+    description: { type: String }
+  }]
 }, { timestamps: true });
 
 module.exports = mongoose.model('About', AboutSchema);

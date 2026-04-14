@@ -2,12 +2,13 @@ const mongoose = require('mongoose');
 
 const ContactSchema = new mongoose.Schema({
   locations: [{
-    city: { type: String, required: true },
-    address: { type: String }
+    city: { type: String },
+    address: { type: String },
+    mapUrl: { type: String }
   }],
   emails: {
-    appointment: { type: String },
-    services: { type: String }
+    appointment: [String],
+    services: [String]
   }
 }, { timestamps: true });
 

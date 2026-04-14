@@ -2,9 +2,12 @@ const mongoose = require('mongoose');
 
 const VacancySchema = new mongoose.Schema({
   title: { type: String, required: true },
-  experience: { type: String },
-  description: { type: String },
-  priority: { type: String, enum: ['Low', 'Medium', 'High', 'Urgent'], default: 'Medium' },
+  type: { type: String, default: 'On Contract' },
+  onPayroll: { type: Boolean, default: false },
+  description: { type: String, required: true },
+  targetSectors: [String],
+  requiredPlatforms: [String],
+  submissionNotes: [String],
 }, { timestamps: true });
 
 module.exports = mongoose.model('Vacancy', VacancySchema);
