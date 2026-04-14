@@ -27,6 +27,15 @@ exports.addTender = async (req, res) => {
   }
 };
 
+exports.updateTender = async (req, res) => {
+  try {
+    const updatedTender = await Tender.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(updatedTender);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
 exports.deleteTender = async (req, res) => {
   try {
     await Tender.findByIdAndDelete(req.params.id);
@@ -53,6 +62,13 @@ exports.addMOU = async (req, res) => {
   } catch (err) { res.status(400).json({ message: err.message }); }
 };
 
+exports.updateMOU = async (req, res) => {
+  try {
+    const updatedMOU = await MOU.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(updatedMOU);
+  } catch (err) { res.status(400).json({ message: err.message }); }
+};
+
 exports.deleteMOU = async (req, res) => {
   try {
     await MOU.findByIdAndDelete(req.params.id);
@@ -73,6 +89,13 @@ exports.addNotice = async (req, res) => {
     const newNotice = new Notice(req.body);
     await newNotice.save();
     res.status(201).json(newNotice);
+  } catch (err) { res.status(400).json({ message: err.message }); }
+};
+
+exports.updateNotice = async (req, res) => {
+  try {
+    const updatedNotice = await Notice.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(updatedNotice);
   } catch (err) { res.status(400).json({ message: err.message }); }
 };
 
