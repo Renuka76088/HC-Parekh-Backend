@@ -14,9 +14,6 @@ const VacancySchema = new mongoose.Schema({
   quotationInstruction: { type: String },
   emails: [String],
   emailHeading: { type: String, default: 'Email Quotation To:' },
-  adminNotes: [String],
-  adminNoteHeading: { type: String, default: 'Note' },
-  submissionNotes: [String],
 }, { timestamps: true });
 
 module.exports = mongoose.model('Vacancy', VacancySchema);
