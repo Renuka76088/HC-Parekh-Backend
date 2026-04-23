@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
 
 const webMarketSettingSchema = new mongoose.Schema({
-  endUser: {
-    authorizedOfficial: { type: String, default: 'HC PAREKH' },
-    assessCode: { type: String, default: 'HCP123' }
-  },
-  serviceProvider: {
-    authorizedOfficial: { type: String, default: 'HC PAREKH' },
-    assessCode: { type: String, default: 'HCP456' }
-  }
+  endUsers: [{
+    authorizedOfficial: { type: String, required: true },
+    assessCode: { type: String, required: true }
+  }],
+  serviceProviders: [{
+    authorizedOfficial: { type: String, required: true },
+    assessCode: { type: String, required: true }
+  }]
 }, { timestamps: true });
 
 module.exports = mongoose.model('WebMarketSetting', webMarketSettingSchema);
