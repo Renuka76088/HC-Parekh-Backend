@@ -18,4 +18,9 @@ router.post('/notices', corporateController.addNotice);
 router.put('/notices/:id', corporateController.updateNotice);
 router.delete('/notices/:id', corporateController.deleteNotice);
 
+router.get('/circulars', corporateController.getCirculars);
+router.post('/circulars', corporateController.addCircular);
+router.put('/circulars/:id', corporateController.updateCircular);
+router.delete('/circulars/:id', corporateController.deleteCircular);
+
 module.exports = router;

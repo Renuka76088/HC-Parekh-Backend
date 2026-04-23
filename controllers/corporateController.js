@@ -1,6 +1,7 @@
 const Tender = require('../models/Tender');
 const MOU = require('../models/MOU');
 const Notice = require('../models/Notice');
+const Circular = require('../models/Circular');
 
 // Tenders
 exports.getTenders = async (req, res) => {
@@ -45,7 +46,6 @@ exports.deleteTender = async (req, res) => {
   }
 };
 
-// Similar logic for MOU and Notice... (Simplified for brevity or repetitive check)
 // MOUs
 exports.getMOUs = async (req, res) => {
   try {
@@ -103,5 +103,35 @@ exports.deleteNotice = async (req, res) => {
   try {
     await Notice.findByIdAndDelete(req.params.id);
     res.json({ message: 'Notice deleted' });
+  } catch (err) { res.status(500).json({ message: err.message }); }
+};
+
+// Circulars
+exports.getCirculars = async (req, res) => {
+  try {
+    const circulars = await Circular.find().sort({ createdAt: -1 });
+    res.json(circulars);
+  } catch (err) { res.status(500).json({ message: err.message }); }
+};
+
+exports.addCircular = async (req, res) => {
+  try {
+    const newCircular = new Circular(req.body);
+    await newCircular.save();
+    res.status(201).json(newCircular);
+  } catch (err) { res.status(400).json({ message: err.message }); }
+};
+
+exports.updateCircular = async (req, res) => {
+  try {
+    const updatedCircular = await Circular.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(updatedCircular);
+  } catch (err) { res.status(400).json({ message: err.message }); }
+};
+
+exports.deleteCircular = async (req, res) => {
+  try {
+    await Circular.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Circular deleted' });
   } catch (err) { res.status(500).json({ message: err.message }); }
 };
