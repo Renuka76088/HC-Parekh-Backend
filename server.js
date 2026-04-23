@@ -21,11 +21,13 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 const corporateRoutes = require('./routes/corporateRoutes');
 const workforceRoutes = require('./routes/workforceRoutes');
 const contentRoutes = require('./routes/contentRoutes');
+const webMarketRoutes = require('./routes/webMarketRoutes');
 
 // Mount routers
 app.use('/api/corporate', corporateRoutes);
 app.use('/api/workforce', workforceRoutes);
 app.use('/api/content', contentRoutes);
+app.use('/api/web-market', webMarketRoutes);
 
 app.get('/', (req, res) => {
   res.send('HC Parekh Admin API is running...');
