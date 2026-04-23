@@ -5,25 +5,39 @@ const ServiceProviderEnquiry = require('../models/ServiceProviderEnquiry');
 // Settings
 exports.getSettings = async (req, res) => {
   try {
+    // We use findOne() without lean first to see if it exists
     let settings = await WebMarketSetting.findOne();
+    
     if (!settings) {
       settings = await WebMarketSetting.create({
         endUsers: [{ authorizedOfficial: 'HC PAREKH', assessCode: 'HCP123' }],
-        serviceProviders: [{ authorizedOfficial: 'HC PAREKH', assessCode: 'HCP456' }]
+        serviceProviders: [{ authorizedOfficial: 'Renuka', assessCode: 'Ren456' }]
       });
+      return res.json(settings);
     }
-    // Migration check for old data structure
-    if (settings.endUser || settings.serviceProvider) {
-      if (settings.endUser && settings.endUsers.length === 0) {
-        settings.endUsers.push(settings.endUser);
-        delete settings.endUser;
-      }
-      if (settings.serviceProvider && settings.serviceProviders.length === 0) {
-        settings.serviceProviders.push(settings.serviceProvider);
-        delete settings.serviceProvider;
-      }
-      await settings.save();
+
+    // Use lean() to see raw data for migration if needed
+    const rawSettings = await WebMarketSetting.findOne().lean();
+    console.log('Backend: Checking raw data for migration...', rawSettings);
+    let needsMigration = false;
+    let updateFields = {};
+
+    if (rawSettings.endUser && (!settings.endUsers || settings.endUsers.length === 0)) {
+      console.log('Backend: Migrating endUser -> endUsers');
+      updateFields.endUsers = [rawSettings.endUser];
+      needsMigration = true;
     }
+    if (rawSettings.serviceProvider && (!settings.serviceProviders || settings.serviceProviders.length === 0)) {
+      console.log('Backend: Migrating serviceProvider -> serviceProviders');
+      updateFields.serviceProviders = [rawSettings.serviceProvider];
+      needsMigration = true;
+    }
+
+    if (needsMigration) {
+      settings = await WebMarketSetting.findOneAndUpdate({}, { $set: updateFields }, { new: true });
+      console.log('Backend: Migration complete.');
+    }
+
     res.json(settings);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -32,14 +46,17 @@ exports.getSettings = async (req, res) => {
 
 exports.updateSettings = async (req, res) => {
   try {
-    let settings = await WebMarketSetting.findOne();
-    if (!settings) {
-      settings = new WebMarketSetting(req.body);
-    } else {
-      settings.endUsers = req.body.endUsers || settings.endUsers;
-      settings.serviceProviders = req.body.serviceProviders || settings.serviceProviders;
-    }
-    await settings.save();
+    const settings = await WebMarketSetting.findOneAndUpdate(
+      {}, 
+      { 
+        $set: { 
+          endUsers: req.body.endUsers, 
+          serviceProviders: req.body.serviceProviders 
+        } 
+      }, 
+      { new: true, upsert: true }
+    );
+    console.log('Web Market Settings updated');
     res.json(settings);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -62,6 +79,7 @@ exports.submitEndUser = async (req, res) => {
     }
 
     const enquiry = await EndUserEnquiry.create(req.body);
+    
     res.status(201).json(enquiry);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -114,6 +132,7 @@ exports.submitServiceProvider = async (req, res) => {
 
     const enquiry = await ServiceProviderEnquiry.create(req.body);
     console.log('New Service Provider Enquiry submitted');
+    
     res.status(201).json(enquiry);
   } catch (err) {
     res.status(500).json({ message: err.message });
