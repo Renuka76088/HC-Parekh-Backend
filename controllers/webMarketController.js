@@ -92,3 +92,12 @@ exports.getServiceProviderEnquiries = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+exports.deleteServiceProviderEnquiry = async (req, res) => {
+  try {
+    await ServiceProviderEnquiry.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
