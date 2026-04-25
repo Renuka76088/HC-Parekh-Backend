@@ -19,6 +19,15 @@ const circularSchema = new mongoose.Schema({
   content: {
     type: String, // HTML content from rich text editor
     required: true
+  },
+  signatureName: {
+    type: String
+  },
+  signatureTitle: {
+    type: String
+  },
+  onBehalfOf: {
+    type: String
   }
 }, {
   timestamps: true
