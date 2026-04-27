@@ -14,6 +14,7 @@ const storage = new CloudinaryStorage({
   params: {
     folder: 'hc_parekh_dashboard',
     allowed_formats: ['jpg', 'png', 'pdf', 'jpeg'],
+    resource_type: 'auto',
   },
 });
 
