@@ -3,8 +3,10 @@ const mongoose = require('mongoose');
 const VacancySchema = new mongoose.Schema({
   title: { type: String, required: true },
   campaign: { type: String },
-  type: { type: String, default: 'On Contract' },
+  campaignHeading: { type: String, default: 'CAMPAIGN' },
+  type: { type: String, default: 'on contract' },
   description: { type: String, required: true },
+  descriptionHeading: { type: String, default: 'Job Description' },
   targetSectors: [String],
   targetSectorsHeading: { type: String, default: 'Target Sectors' },
   requiredPlatforms: [String],
