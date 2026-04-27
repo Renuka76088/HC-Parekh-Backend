@@ -1,33 +1,13 @@
 const mongoose = require('mongoose');
 
 const circularSchema = new mongoose.Schema({
-  circularNo: {
-    type: String,
-    required: true
-  },
-  circularDate: {
-    type: String,
-    required: true
-  },
   subject: {
     type: String,
     required: true
   },
-  kindAttention: {
-    type: String
-  },
-  content: {
-    type: String, // HTML content from rich text editor
+  pdfUrl: {
+    type: String,
     required: true
-  },
-  signatureName: {
-    type: String
-  },
-  signatureTitle: {
-    type: String
-  },
-  onBehalfOf: {
-    type: String
   }
 }, {
   timestamps: true
