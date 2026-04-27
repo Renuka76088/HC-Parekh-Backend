@@ -116,10 +116,14 @@ exports.getCirculars = async (req, res) => {
 
 exports.addCircular = async (req, res) => {
   try {
+    console.log('Received Circular Data:', req.body);
     const newCircular = new Circular(req.body);
     await newCircular.save();
     res.status(201).json(newCircular);
-  } catch (err) { res.status(400).json({ message: err.message }); }
+  } catch (err) { 
+    console.error('Circular Save Error:', err);
+    res.status(400).json({ message: err.message }); 
+  }
 };
 
 exports.updateCircular = async (req, res) => {
