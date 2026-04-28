@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const VacancySchema = new mongoose.Schema({
   title: { type: String, required: true },
+  publishDate: { type: String },
   campaign: { type: String },
   campaignHeading: { type: String, default: 'CAMPAIGN' },
   type: { type: String, default: 'on contract' },

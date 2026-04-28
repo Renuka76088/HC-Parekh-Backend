@@ -6,6 +6,9 @@ const circularSchema = new mongoose.Schema({
   },
   pdfUrl: {
     type: String,
+  },
+  publishDate: {
+    type: String,
   }
 }, {
   timestamps: true

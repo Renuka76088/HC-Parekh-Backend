@@ -3,11 +3,19 @@ const router = express.Router();
 const contentController = require('../controllers/contentController');
 const { upload } = require('../config/cloudinary');
 
-router.post('/upload', upload.single('file'), (req, res) => {
+router.post('/upload', (req, res, next) => {
+  upload.single('file')(req, res, (err) => {
+    if (err) {
+      console.error('Cloudinary Upload Error:', err);
+      return res.status(500).json({ message: `Cloudinary Upload Error: ${err.message}` });
+    }
+    next();
+  });
+}, (req, res) => {
   if (req.file && req.file.path) {
     res.json({ secure_url: req.file.path });
   } else {
-    res.status(400).json({ message: 'Upload failed' });
+    res.status(400).json({ message: 'Upload failed: No file received' });
   }
 });
 
