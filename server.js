@@ -8,7 +8,24 @@ const path = require('path');
 dotenv.config();
 
 // Connect to database
-connectDB();
+connectDB().then(async () => {
+  // Auto-seed initial admin if none exists
+  const Admin = require('./models/Admin');
+  try {
+    const adminCount = await Admin.countDocuments();
+    if (adminCount === 0) {
+      await Admin.create({
+        username: 'admin',
+        password: 'password123',
+        role: 'super-admin'
+      });
+      console.log('Live DB: Initial Admin created (admin / password123)');
+    }
+  } catch (err) {
+    console.error('Auto-seed error:', err.message);
+  }
+});
+
 const app = express();
 
 // CORS configuration (MUST BE FIRST)
