@@ -1,6 +1,8 @@
 const Service = require('../models/Service');
 const About = require('../models/About');
 const Contact = require('../models/Contact');
+const ServiceCharge = require('../models/ServiceCharge');
+const NoticeSetting = require('../models/NoticeSetting');
 
 // Services
 exports.getServices = async (req, res) => {
@@ -59,5 +61,41 @@ exports.updateContact = async (req, res) => {
   try {
     const contact = await Contact.findOneAndUpdate({}, req.body, { upsert: true, new: true });
     res.json(contact);
+  } catch (err) { res.status(400).json({ message: err.message }); }
+};
+// Service Charges
+exports.getServiceCharges = async (req, res) => {
+  try {
+    let charges = await ServiceCharge.findOne();
+    if (!charges) {
+      // Return default values if nothing in DB yet
+      charges = new ServiceCharge();
+    }
+    res.json(charges);
+  } catch (err) { res.status(500).json({ message: err.message }); }
+};
+
+exports.updateServiceCharges = async (req, res) => {
+  try {
+    const charges = await ServiceCharge.findOneAndUpdate({}, req.body, { upsert: true, new: true });
+    res.json(charges);
+  } catch (err) { res.status(400).json({ message: err.message }); }
+};
+
+// Notice Settings
+exports.getNoticeSettings = async (req, res) => {
+  try {
+    let settings = await NoticeSetting.findOne();
+    if (!settings) {
+      settings = new NoticeSetting();
+    }
+    res.json(settings);
+  } catch (err) { res.status(500).json({ message: err.message }); }
+};
+
+exports.updateNoticeSettings = async (req, res) => {
+  try {
+    const settings = await NoticeSetting.findOneAndUpdate({}, req.body, { upsert: true, new: true });
+    res.json(settings);
   } catch (err) { res.status(400).json({ message: err.message }); }
 };

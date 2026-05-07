@@ -6,10 +6,7 @@ const ContactSchema = new mongoose.Schema({
     address: { type: String },
     mapUrl: { type: String }
   }],
-  emails: {
-    appointment: [String],
-    services: [String]
-  }
+  emails: [String]
 }, { timestamps: true });
 
 module.exports = mongoose.model('Contact', ContactSchema);

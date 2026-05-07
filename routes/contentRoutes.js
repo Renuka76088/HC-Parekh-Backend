@@ -30,4 +30,10 @@ router.put('/about', contentController.updateAbout);
 router.get('/contact', contentController.getContact);
 router.put('/contact', contentController.updateContact);
 
+router.get('/service-charges', contentController.getServiceCharges);
+router.put('/service-charges', contentController.updateServiceCharges);
+
+router.get('/notice-settings', contentController.getNoticeSettings);
+router.put('/notice-settings', contentController.updateNoticeSettings);
+
 module.exports = router;
