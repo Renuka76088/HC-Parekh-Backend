@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const TeamSchema = new mongoose.Schema({
   name: { type: String, required: true },
   designation: { type: String, required: true },
+  locations: [{ type: String }],
   bio: { type: String },
   photoUrl: { type: String },
   photoId: { type: String },
